@@ -1,7 +1,10 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
     text-align: center;
+    background-image: url('../static/temple.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 h1 {
@@ -12,11 +15,17 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 50px auto;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 label, input {
     margin-bottom: 10px;
-    width: 30%;
+    width: 100%;
     box-sizing: border-box;
 }
 
