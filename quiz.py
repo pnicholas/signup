@@ -10,6 +10,7 @@ db = SQLAlchemy(app)
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_name = db.Column(db.String(80), nullable=False)
+    e_mail = db.Column(db.String(255), nullable=False)
     participant_1 = db.Column(db.String(80))
     participant_2 = db.Column(db.String(80))
     participant_3 = db.Column(db.String(80))
@@ -26,14 +27,19 @@ def signup():
         return "Error: Maximum limit of teams reached. Sign-up is closed."
 
     team_name = request.form['team_name']
+    e_mail = request.form['e_mail']
     participants = [request.form[f'name_{i}'] for i in range(1, 6) if request.form[f'name_{i}'].strip() != ""]
 
     if not team_name.strip():
         return "Error: Team name is required."
     
+    if not e_mail.strip():
+        return "Error: E-mail is required."
+    
     if len(participants) > 0:
         new_team = Team(
             team_name=team_name,
+            e_mail=e_mail,
             participant_1=participants[0] if len(participants) >= 1 else None,
             participant_2=participants[1] if len(participants) >= 2 else None,
             participant_3=participants[2] if len(participants) >= 3 else None,
