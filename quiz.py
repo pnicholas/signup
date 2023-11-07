@@ -22,6 +22,9 @@ def index():
 
 @app.route('/signup', methods=['POST'])
 def signup():
+    if Team.query.count() >= 12:
+        return "Error: Maximum limit of teams reached. Sign-up is closed."
+
     team_name = request.form['team_name']
     participants = [request.form[f'name_{i}'] for i in range(1, 6) if request.form[f'name_{i}'].strip() != ""]
 
