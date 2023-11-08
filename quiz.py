@@ -50,7 +50,7 @@ def signup():
         db.session.commit()
         return "Successfully signed up!"
     else:
-        return "Error: Invalid team size."
+        return "Error: Invalid team size. You must at least have one member on your team."
 
 if __name__ == '__main__':
     with app.app_context():
