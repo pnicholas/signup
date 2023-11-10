@@ -10,7 +10,8 @@
     <h1>Temple bar pub quiz sign up</h1>
     <form action="/signup" method="post" novalidate>
         <label for="team_name">Team Name:</label>
-        <input type="text" id="team_name" name="team_name" required><br><br>
+        <input type="text" id="team_name" name="team_name" required>
+        <button type="button" id="generate_team_name">Generate Random Name</button><br><br>
 
         <p>By providing your e-mail address, you agree that it will be used for the purpose of the Temple Bar pub quiz, and only for matters relating to this. You can always withdraw your consent at any time.</p>
 
@@ -34,5 +35,17 @@
         
         <input type="submit" value="Submit">
     </form>
+
+<script>
+    document.getElementById('generate_team_name').addEventListener('click', function() {
+        fetch('/random_team_name')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('team_name').value = data.random_team_name;
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
 </body>
 </html>
