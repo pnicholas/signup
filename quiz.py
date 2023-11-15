@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 import os
 from config import DATABASE_URI
 from random_names import get_random_team_name
@@ -40,6 +41,11 @@ def signup():
     if not e_mail.strip():
         return "Error: E-mail is required."
     
+    # Check if the team name already exists in the database (case and whitespace-insensitive)
+    existing_team = Team.query.filter(func.lower(func.replace(Team.team_name, ' ', '')) == func.lower(func.replace(team_name, ' ', ''))).first()
+    if existing_team:
+        return f"Error: Team name '{team_name}' is already taken. Please choose a different team name."
+
     if len(participants) > 0:
         # Convert to local timezone using pytz
         timestamp_utc = datetime.utcnow()
