@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 db = SQLAlchemy(app)
 
-class Team(db.Model):
+class Signup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_name = db.Column(db.String(80), nullable=False)    
     e_mail = db.Column(db.String(255), nullable=False)
@@ -28,7 +28,7 @@ def index():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    if Team.query.count() >= 12:
+    if Signup.query.count() >= 12:
         return "Error: Maximum limit of teams reached. Sign-up is closed."
 
     team_name = request.form['team_name']
@@ -42,7 +42,7 @@ def signup():
         return "Error: E-mail is required."
     
     # Check if the team name already exists in the database (case and whitespace-insensitive)
-    existing_team = Team.query.filter(func.lower(func.replace(Team.team_name, ' ', '')) == func.lower(func.replace(team_name, ' ', ''))).first()
+    existing_team = Signup.query.filter(func.lower(func.replace(Signup.team_name, ' ', '')) == func.lower(func.replace(team_name, ' ', ''))).first()
     if existing_team:
         return f"Error: Team name '{team_name}' is already taken. Please choose a different team name."
 
@@ -52,7 +52,7 @@ def signup():
         local_tz = pytz.timezone('Europe/Copenhagen')
         timestamp_local = timestamp_utc.replace(tzinfo=pytz.utc).astimezone(local_tz)
 
-        new_team = Team(
+        new_team = Signup(
             team_name=team_name,
             e_mail=e_mail,
             participant_1=participants[0] if len(participants) >= 1 else None,
